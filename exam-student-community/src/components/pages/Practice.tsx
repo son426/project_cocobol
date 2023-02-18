@@ -1,21 +1,26 @@
-import styled from "styled-components";
-
-const Box1 = styled.div`
-  @media ${({ theme }) => theme.device.desktop} {
-    background-color: red;
-  }
-  @media ${({ theme }) => theme.device.mobile} {
-    background-color: blue;
-  }
-`;
-
-const Box2 = styled.div``;
+import { useEffect, useState } from "react";
 
 function Practice() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth <= 800) {
+        setIsMobile(true);
+      } else {
+        setIsMobile(false);
+      }
+    }
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
-    <Box1>
-      <Box2>hi</Box2>
-    </Box1>
+    <div>{isMobile ? <h1>Mobile content</h1> : <h1>Desktop content</h1>}</div>
   );
 }
 

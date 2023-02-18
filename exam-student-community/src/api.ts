@@ -87,7 +87,7 @@ export async function getMyPosts() {
     method: "get",
     url: `${SERVER_URL}/apis/posts/my`,
   });
-  return response.data;
+  return response;
 }
 
 export function writePost(

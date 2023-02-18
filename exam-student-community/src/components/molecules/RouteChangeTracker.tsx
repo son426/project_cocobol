@@ -6,11 +6,10 @@ import ReactGA from "react-ga4";
  * uri 변경 추적 컴포넌트
  * uri가 변경될 때마다 pageview 이벤트 전송
  */
-const TRACKING_ID = "G-SLFM5PBYC6";
-// const TRACKING_ID = process.env.REACT_APP_GOOGLE_ANALYTICS_TRACKING_ID;
+// const TRACKING_ID = "G-SLFM5PBYC6";
+const TRACKING_ID = process.env.REACT_APP_GOOGLE_ANALYTICS_TRACKING_ID;
 
 const RouteChangeTracker = (): any => {
-  console.log("TRACKING_ID :", TRACKING_ID);
   const location = useLocation();
   const [initialized, setInitialized] = useState(false);
 

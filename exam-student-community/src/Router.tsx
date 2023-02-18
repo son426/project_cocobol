@@ -20,6 +20,7 @@ import MyProfile from "./components/pages/MyProfile";
 import WriteTimer from "./components/pages/WriteTimer";
 import Footer from "./components/molecules/Footer";
 import MyLikePosts from "./components/pages/MyLikePosts";
+import Map from "./components/pages/new/Map";
 
 function Router() {
   return (
@@ -48,6 +49,7 @@ function Router() {
         <Route path="/timer" element={<Timer />} />
         <Route path="/myprofile" element={<MyProfile />} />
         <Route path="/writetimer" element={<WriteTimer />} />
+        <Route path="/map" element={<Map />} />
       </Routes>
       {/* <Footer /> */}
     </BrowserRouter>

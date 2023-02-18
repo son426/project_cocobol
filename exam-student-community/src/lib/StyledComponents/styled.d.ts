@@ -16,3 +16,9 @@ declare module "styled-components" {
     desktop: string;
   }
 }
+
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
