@@ -85,3 +85,8 @@ export const restrict = atom({
   key: "restrict",
   default: true,
 });
+
+export const atom_place = atom({
+  key: "place",
+  default: "",
+});

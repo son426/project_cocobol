@@ -1,5 +1,4 @@
 export const getLocationByAddress = async (address: string): Promise<any> => {
-  console.log("getLocationByAddress/ address :", address);
   const geocoder = new window.kakao.maps.services.Geocoder();
 
   return await new Promise((resolve) => {
@@ -9,15 +8,33 @@ export const getLocationByAddress = async (address: string): Promise<any> => {
   });
 };
 
+export const testmapapi = (address: string) => {
+  const geocoder = new window.kakao.maps.services.Geocoder();
+  return new Promise((resolve, reject) => {
+    geocoder.addressSearch(address, function (result: any, status: any) {
+      if (status === window.kakao.maps.services.Status.OK) {
+        const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+        resolve(coords);
+      } else {
+        reject(status);
+      }
+    });
+  });
+};
+
 export const searchAndMoveByAddress = (map: any, address: string) => {
   const geocoder = new window.kakao.maps.services.Geocoder();
   geocoder.addressSearch(address, function (result: any, status: any) {
     if (status === window.kakao.maps.services.Status.OK) {
       const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+      console.log(
+        address,
+        "searchAndMoveByAddress result / coords:",
+        result,
+        coords
+      );
       map.setCenter(coords);
-      console.log("searchAndMoveByAddress/ coords :", coords);
     }
-    console.log("searchAndMoveByAddress/ status :", status);
   });
 };
 

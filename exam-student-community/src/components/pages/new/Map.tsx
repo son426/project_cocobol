@@ -1,10 +1,18 @@
 import MapContainer from "./MapContainer";
 import { useState } from "react";
 import TopBar from "../../molecules/TopBar";
+import { getLocationByAddress, testmapapi } from "./mapapi";
+import { useRecoilState } from "recoil";
+import { atom_place } from "../../../store/atoms";
 
 function Map() {
+  const defaultPosition = new window.kakao.maps.LatLng(
+    37.5869124118253,
+    127.030902905651
+  );
+
   const [inputText, setInputText] = useState("");
-  const [place, setPlace] = useState("");
+  const [position, setLocPosition] = useState<any>(defaultPosition);
 
   const onChange = (e: any) => {
     setInputText(e.target.value);
@@ -12,15 +20,24 @@ function Map() {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    setPlace(inputText);
+
+    const testfn = async () => {
+      try {
+        const location = await testmapapi(inputText);
+        console.log(inputText, "submit location :", location);
+        setLocPosition(location);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    testfn();
     setInputText("");
   };
 
   return (
     <>
       <TopBar needWrite={true} needSearch={false} />
-      <button>필터 설정</button>
-      <button>현재 위치로</button>
+      <div></div>
 
       <div>
         <form className="inputForm" onSubmit={handleSubmit}>
@@ -32,7 +49,7 @@ function Map() {
           <button type="submit">검색</button>
         </form>
       </div>
-      <MapContainer searchPlace={place} />
+      <MapContainer position={position} />
     </>
   );
 }
