@@ -43,7 +43,7 @@ function Login() {
     } else {
       setIsLoggedIn(true);
       setLoginUserId(data.id); // 코드 합칠때 주의
-      setUserName(response.data.name);
+      setUserName(response.data.user.name);
       navigate("/");
     }
   }
