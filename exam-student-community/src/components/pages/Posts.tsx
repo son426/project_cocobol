@@ -33,6 +33,7 @@ function Posts() {
   useEffect(() => {
     console.log("posts page state :", state);
     setChangeBoardLoading(true);
+
     const paintPosts = async () => {
       if (state === null) {
         const response = await getPosts(2);
