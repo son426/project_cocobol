@@ -200,7 +200,7 @@ export const SearchForm = styled.form`
   }
   @media ${({ theme }) => theme.device.desktop} {
     position: absolute;
-    top: 12px;
+    top: 8px;
     left: 20%;
     width: 50%;
   }
@@ -321,7 +321,7 @@ export const DropdownBox = styled.div`
     top: 8%;
   }
   @media ${({ theme }) => theme.device.desktop} {
-    top: 6%;
+    top: 8%;
   }
 `;
 

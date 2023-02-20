@@ -13,31 +13,64 @@ function Map() {
 
   const [inputText, setInputText] = useState("");
   const [position, setLocPosition] = useState<any>(defaultPosition);
+  const [searchResults, setSearchResults] = useState([]);
 
   const onChange = (e: any) => {
+    hideSearchResult();
     setInputText(e.target.value);
+    displaySearchResult(e.target.value);
+  };
+
+  const setPosition = async (inputText: string) => {
+    testmapapi(inputText)
+      .then((data: any) => {
+        const location = data.coords;
+        setLocPosition(location);
+      })
+      .catch((error) => {
+        console.error("catch error :", error);
+      });
+  };
+
+  const displaySearchResult = (inputText: string) => {
+    testmapapi(inputText)
+      .then((data: any) => {
+        setSearchResults(data.result);
+      })
+      .catch((error) => {
+        console.error("catch error :", error);
+      });
+  };
+
+  const hideSearchResult = () => {
+    setSearchResults([]);
   };
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-
-    const testfn = async () => {
-      try {
-        const location = await testmapapi(inputText);
-        console.log(inputText, "submit location :", location);
-        setLocPosition(location);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    testfn();
+    setPosition(inputText);
     setInputText("");
   };
 
   return (
     <>
       <TopBar needWrite={true} needSearch={false} />
-      <div></div>
+      <div>
+        <button
+          onClick={() => {
+            setPosition("고려대로");
+          }}
+        >
+          안암
+        </button>
+        <button
+          onClick={() => {
+            setPosition("신촌");
+          }}
+        >
+          연세대
+        </button>
+      </div>
 
       <div>
         <form className="inputForm" onSubmit={handleSubmit}>
@@ -49,6 +82,35 @@ function Map() {
           <button type="submit">검색</button>
         </form>
       </div>
+      {/* 검색보조창 */}
+      {inputText.length !== 0 ? (
+        <>
+          <ul>
+            {searchResults.map((result: any, index) => {
+              console.log(result);
+              return (
+                <li
+                  onClick={() => {
+                    setInputText(result.address_name);
+                    const location = new window.kakao.maps.LatLng(
+                      result.y,
+                      result.x
+                    );
+                    setLocPosition(location);
+                    setSearchResults([]);
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  {result.address_name}
+                </li>
+              );
+            })}
+          </ul>
+        </>
+      ) : null}
+
+      {/*
+       */}
       <MapContainer position={position} />
     </>
   );

@@ -8,13 +8,42 @@ export const getLocationByAddress = async (address: string): Promise<any> => {
   });
 };
 
-export const testmapapi = (address: string) => {
+// export const testmapapi = (address: string) => {
+//   const geocoder = new window.kakao.maps.services.Geocoder();
+
+//   return new Promise((resolve, reject) => {
+//     geocoder.addressSearch(address, function (result: any, status: any) {
+//       if (status === window.kakao.maps.services.Status.OK) {
+//         const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+//         console.log(result);
+//         resolve({ coords, result });
+//       } else {
+//         reject(status);
+//       }
+//     });
+//   });
+// };
+
+export const testmapapi = async (address: string) => {
   const geocoder = new window.kakao.maps.services.Geocoder();
+  const response = await geocoder.addressSearch(
+    address,
+    function (result: any, status: any) {
+      if (status === window.kakao.maps.services.Status.OK) {
+        const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+        return { coords, result };
+      } else {
+        return status;
+      }
+    }
+  );
+
   return new Promise((resolve, reject) => {
     geocoder.addressSearch(address, function (result: any, status: any) {
       if (status === window.kakao.maps.services.Status.OK) {
         const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
-        resolve(coords);
+        console.log(result);
+        resolve({ coords, result });
       } else {
         reject(status);
       }
@@ -66,20 +95,28 @@ export const markerdata = [
     title: "스터디1",
     lat: 37.5862424118253,
     lng: 127.032902905651,
+    position: "성북구",
+    info: "기타 필요한 정보 쭉",
   },
   {
     title: "스터디2",
     lat: 37.5869824118253,
     lng: 127.030902905651,
+    position: "성북구",
+    info: "기타 필요한 정보 쭉",
   },
   {
     title: "스터디3",
     lat: 37.5869124118253,
     lng: 127.030302905651,
+    position: "성북구",
+    info: "기타 필요한 정보 쭉",
   },
   {
     title: "스터디4",
     lat: 37.5869424118253,
     lng: 127.031902905651,
+    position: "성북구",
+    info: "기타 필요한 정보 쭉",
   },
 ];

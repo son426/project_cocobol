@@ -39,7 +39,11 @@ const MapContainer = React.memo(({ position }: ILocationProps) => {
       var infowindow = new kakao.maps.InfoWindow({
         map: map, // 인포윈도우가 표시될 지도
         position: new kakao.maps.LatLng(el.lat, el.lng),
-        content: `<div style="padding:5px;">${el.title}</div>`,
+        content: `<div style="padding:5px;">
+        <p>스터디명 : ${el.title}</p>
+        <p>위치 : ${el.position}</p>
+        <p>위치 : ${el.info}</p>
+        </div>`,
         removable: true,
       });
 
