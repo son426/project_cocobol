@@ -2,7 +2,13 @@ import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { loginState, postOptionState, user } from "../../store/atoms";
-import { authCheck, writeComment, getPost, deletePost } from "../../api";
+import {
+  authCheck,
+  writeComment,
+  getPost,
+  deletePost,
+  getLikes,
+} from "../../api";
 import { useForm } from "react-hook-form";
 import { IconSend } from "../molecules/atoms/icons";
 import PostMainContents from "../molecules/PostMainContents";
@@ -111,8 +117,6 @@ function Post() {
     window.location.reload();
   }
 
-  console.log("postData :", postData);
-
   useEffect(() => {
     const checkUserAuth = async () => {
       const authData = await authCheck();
@@ -137,14 +141,6 @@ function Post() {
       checkUserAuth();
       paintPost();
     }
-    console.log("postData :", postData);
-    console.log("로그인한 유저 :", userName);
-
-    console.log("이글을 쓴 사용자 : ", postData?.post_detail.user_name);
-    // sample test
-    // setIsLoading(false);
-    // setIsLoggedIn(true);
-    // setUserName("hongjin");
   }, []);
 
   return postData ? (

@@ -805,7 +805,6 @@ export const ContentBtn = styled.div`
   @media ${({ theme }) => theme.device.mobile} {
     height: 100%;
     span {
-      width: 50%;
       font-size: 12px;
       font-weight: bold;
     }

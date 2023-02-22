@@ -79,6 +79,8 @@ export async function getPost(id: number) {
     url: `${SERVER_URL}/apis/posts/detail/${id}`,
   });
 
+  // console.log("getPost api response.data : ", response.data);
+
   return response.data;
 }
 
@@ -438,4 +440,43 @@ export const getMyLikePosts = async () => {
     url: `${SERVER_URL}/apis/posts/mylike`,
   });
   return response.data;
+};
+
+// 좋아요 관련
+
+export interface ILikeResponse {
+  success: boolean;
+  doesUserLike?: boolean; //현재 로그인한 유저가 해당 게시물을 좋아하고 있는지
+  likesCount?: number; //요청한 게시물의 like 개수
+  message?: string;
+}
+
+export const pushLikes = async (postId: number) => {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${SERVER_URL}/apis/posts/like`,
+      data: {
+        postId,
+      },
+      withCredentials: true,
+    });
+    console.log("pushLikes api response :", response);
+    return response;
+  } catch (error) {
+    console.log("pushLikes api catch error :", error);
+  }
+};
+
+export const getLikes = async (postId: number) => {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${SERVER_URL}/apis/posts/like/${postId}`,
+    });
+    console.log("getLikes api response :", response);
+    return response;
+  } catch (error) {
+    console.log("getLikes api catch error :", error);
+  }
 };
