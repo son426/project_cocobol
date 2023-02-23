@@ -15,4 +15,12 @@ export const theme: DefaultTheme = {
     mobile: `screen and (max-width: ${deviceSizes.mobile})`,
     desktop: `screen and (min-width: ${deviceSizes.desktop})`,
   },
+
+  weightBold: 700,
+  weightRegular: 500,
+  weightThin: 300,
+
+  fontLarge: "24px",
+  fontRegular: "20px",
+  fontSmall: "16px",
 };

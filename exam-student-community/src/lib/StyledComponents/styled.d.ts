@@ -9,6 +9,13 @@ declare module "styled-components" {
     whiteColor: string;
     blackColor: string;
     device: DeviceTheme;
+    weightBold: number;
+    weightRegular: number;
+    weightThin: number;
+
+    fontLarge: string;
+    fontRegular: string;
+    fontSmall: string;
   }
 
   interface DeviceTheme {

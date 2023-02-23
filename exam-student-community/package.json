@@ -1,5 +1,5 @@
 {
-  "proxy": "http://localhost:8080",
+  "proxy": "http://132.226.22.68:8080",
   "name": "exam-student-community",
   "version": "0.1.0",
   "private": true,

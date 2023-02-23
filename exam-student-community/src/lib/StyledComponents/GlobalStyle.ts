@@ -1,9 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
-font-family: 'Source Sans Pro', sans-serif;
-
+  
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -55,7 +53,7 @@ table {
  box-sizing: border-box; 
 }
 body{
-  font-family: 'Stylish', sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
     /* background-image: radial-gradient(circle at 10% 10%, rgb(255, 156, 156) 0%, rgb(179, 201, 241) 80%); */
   background-color:${(props) => props.theme.whiteColor};
   color:black;
