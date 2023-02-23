@@ -39,6 +39,9 @@ function Write() {
   const { state } = useLocation() as IWriteState;
   const navigate = useNavigate();
 
+  let authStatus: boolean;
+  let authName: string;
+
   let vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty("--vh", `${vh}px`);
 
@@ -50,24 +53,41 @@ function Write() {
   });
 
   useEffect(() => {
-    const checkUserAuth = async () => {
-      const authData = await authCheck();
-      const authStatus = authData["isAuthenticated"];
-      const authName = authData["username"];
-      setIsLoggedIn(authStatus);
-      setUserName(authName);
-      setIsLoading(false);
+    authCheck()
+      .then((data) => {
+        authStatus = data["isAuthenticated"];
+        authName = data["username"];
+        setIsLoggedIn(authStatus);
+        setUserName(authName);
+        setIsLoading(false);
+      })
+      .then(() => {
+        if (authStatus) {
+          setWriteState(state);
+        } else {
+          alert("로그인하셔야 글쓰기를 할 수 있습니다.");
+          navigate("/login");
+        }
+      });
 
-      if (authStatus) {
-        setWriteState(state);
-        console.log("!!");
-      } else {
-        alert("로그인하셔야 글쓰기를 할 수 있습니다.");
-        navigate("/login");
-      }
-    };
+    // const checkUserAuth = async () => {
+    //   const authData = await authCheck();
+    //   const authStatus = authData["isAuthenticated"];
+    //   const authName = authData["username"];
+    //   setIsLoggedIn(authStatus);
+    //   setUserName(authName);
+    //   setIsLoading(false);
 
-    checkUserAuth();
+    //   if (authStatus) {
+    //     setWriteState(state);
+    //     console.log("!!");
+    //   } else {
+    //     alert("로그인하셔야 글쓰기를 할 수 있습니다.");
+    //     navigate("/login");
+    //   }
+    // };
+
+    // checkUserAuth();
   }, []);
   const {
     register,

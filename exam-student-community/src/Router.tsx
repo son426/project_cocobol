@@ -24,7 +24,6 @@ import MyLikePosts from "./components/pages/MyLikePosts";
 function Router() {
   return (
     <BrowserRouter>
-      <RouteChangeTracker />
       <Routes>
         {/* <Route path="/" element={<Main />} /> */}
         <Route path="/" element={<Posts />} />

@@ -28,6 +28,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { loginState, postOptionState, userId } from "../../store/atoms";
 import { replaceUrlsWithHyperlinks } from "../../functions";
 import { AxiosResponse } from "axios";
+import Loading from "./Loading";
 
 interface IPostProp {
   post?: any | null;
@@ -36,7 +37,7 @@ interface IPostProp {
 }
 
 function PostMainContents({ post, handleDelete, handleEdit }: IPostProp) {
-  const [likeClicked, setLikeClicked] = useState(false);
+  const [likeClicked, setLikeClicked] = useState(false as boolean | undefined);
   const [scrapClicked, setScrapClicked] = useState(false);
   const [likeNum, setLikeNum] = useState(0 as number | undefined);
   const loginUserId = useRecoilValue(userId);
@@ -53,13 +54,24 @@ function PostMainContents({ post, handleDelete, handleEdit }: IPostProp) {
       postId
     );
     console.log("onLike response :", response);
-    if (response?.data?.doesUserLike) {
-      setLikeClicked((current) => !current);
-      // Do something with the response data
-    } else {
-      // Handle the case where the response is undefined
-      console.error("Error fetching likes data");
+    if (response?.data?.message === "login fail") {
+      alert("로그인해야함");
+      return;
     }
+
+    if (likeClicked) {
+      setLikeNum((current: any) => current - 1);
+    } else {
+      setLikeNum((current: any) => current + 1);
+    }
+
+    setLikeClicked(response?.data?.doesUserLike);
+
+    console.log("onLike response : ", response);
+    console.log(
+      "onLike response.data.doesUserLike : ",
+      response?.data?.doesUserLike
+    );
   };
 
   const onCopy = () => {
@@ -77,16 +89,17 @@ function PostMainContents({ post, handleDelete, handleEdit }: IPostProp) {
       const response: AxiosResponse<ILikeResponse> | undefined = await getLikes(
         post.id as number
       );
-      console.log("getLikesNum response : ", response);
-      setLikeNum(() => {
-        console.log("getLikesNum_setLikeNum response : ", response);
-        console.log("getLikesNum_setLikeNum response.data : ", response?.data);
-        return response?.data?.likesCount;
-      });
+
+      if (response?.data?.success) {
+        console.log("getLikesNum response : ", response);
+        setLikeNum(response?.data?.likesCount);
+        setLikeClicked(response?.data?.doesUserLike);
+      }
     };
+    getLikesNum();
   }, []);
 
-  return (
+  return likeNum !== undefined ? (
     <PostMainContentsWrapper>
       <User height="5vh">
         <IconUser className="userIcon" />
@@ -137,6 +150,8 @@ function PostMainContents({ post, handleDelete, handleEdit }: IPostProp) {
         </ContentBtns>
       </ContentInfo>
     </PostMainContentsWrapper>
+  ) : (
+    <Loading />
   );
 }
 
