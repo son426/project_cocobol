@@ -43,6 +43,7 @@ function PostMainContents({ post, handleDelete, handleEdit }: IPostProp) {
   const loginUserId = useRecoilValue(userId);
   const loginCheck = useRecoilValue(loginState);
   const [postId, setPostId] = useState(0 as number);
+  const isLoggedIn = useRecoilValue(loginState);
 
   const [isOptions, setIsOptions] = useRecoilState(postOptionState);
   const onOptions = () => {
@@ -50,28 +51,22 @@ function PostMainContents({ post, handleDelete, handleEdit }: IPostProp) {
   };
 
   const onLike = async () => {
-    const response: AxiosResponse<ILikeResponse> | undefined = await pushLikes(
-      postId
-    );
-    console.log("onLike response :", response);
-    if (response?.data?.message === "login fail") {
+    if (!isLoggedIn) {
       alert("로그인해야함");
       return;
     }
 
+    //일단 바꾸고
     if (likeClicked) {
       setLikeNum((current: any) => current - 1);
+      setLikeClicked((current) => !current);
     } else {
       setLikeNum((current: any) => current + 1);
+      setLikeClicked((current) => !current);
     }
 
-    setLikeClicked(response?.data?.doesUserLike);
-
-    console.log("onLike response : ", response);
-    console.log(
-      "onLike response.data.doesUserLike : ",
-      response?.data?.doesUserLike
-    );
+    // 서버랑 통신
+    pushLikes(postId);
   };
 
   const onCopy = () => {
